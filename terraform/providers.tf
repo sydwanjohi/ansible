@@ -1,20 +1,18 @@
-provider "github" {
-  token = var.token
-}
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "4.66.0"
+    }
 
-resource "github_repository" "example" {
-  name        = "example-repo"
-  description = "My awesome codebase"
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
 
-  visibility = "public"
-}
-
-# Add a collaborator to a repository
-resource "github_repository_collaborator" "a_repo_collaborator" {
-  count      = length(var.organization_developers)
-  repository = github_repository.example.name
-  username   = var.organization_developers[count.index]
-  permission = "admin"
-
-  depends_on = [github_repository.example]
+    github = {
+      source  = "integrations/github"
+      version = "5.25.1"
+    }
+  }
 }
